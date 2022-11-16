@@ -51,8 +51,8 @@ CREATE TABLE report
         primary key,
     diet text,
     health varchar(500),
-    actions varchar(400)
-
+    actions varchar(400),
+    day_report date
 );
 
 -- changeset amalashenko:6
@@ -114,3 +114,6 @@ ALTER TABLE animal ADD FOREIGN KEY(owner) REFERENCES client(id);
 -- changeset amalashenko:16
 ALTER TABLE animal ADD COLUMN share_home_id bigint;
 ALTER TABLE animal ADD FOREIGN KEY(share_home_id) REFERENCES share_home(id);
+
+-- changeset amalashenko:17
+ALTER TABLE share_home ADD COLUMN description varchar(1000);

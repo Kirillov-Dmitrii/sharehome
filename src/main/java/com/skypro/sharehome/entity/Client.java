@@ -39,6 +39,10 @@ public class Client {
         this.countDays = countDays;
     }
 
+    public Client(String name, String phone, Long idChat, ShareHome shareHome) {
+        this(null, name, phone, idChat, null, null, shareHome, null);
+    }
+
     public Long getId() {
         return id;
     }

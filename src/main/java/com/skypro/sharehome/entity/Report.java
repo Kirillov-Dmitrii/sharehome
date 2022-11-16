@@ -1,6 +1,7 @@
 package com.skypro.sharehome.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -17,16 +18,18 @@ public class Report {
     private String diet;
     private String health;
     private String actions;
+    private LocalDate dayReport;
 
     public Report() {
     }
 
-    public Report(Long id, Animal animal, Avatar avatar, String diet, String health, String actions) {
+    public Report(Long id, Animal animal, Avatar avatar, String diet, String health, String actions, LocalDate dayReport) {
         this.id = id;
         this.animal = animal;
         this.diet = diet;
         this.health = health;
         this.actions = actions;
+        this.dayReport = dayReport;
     }
 
     public Long getId() {
@@ -67,6 +70,14 @@ public class Report {
 
     public void setActions(String actions) {
         this.actions = actions;
+    }
+
+    public LocalDate getDayReport() {
+        return dayReport;
+    }
+
+    public void setDayReport(LocalDate dayReport) {
+        this.dayReport = dayReport;
     }
 
     @Override
