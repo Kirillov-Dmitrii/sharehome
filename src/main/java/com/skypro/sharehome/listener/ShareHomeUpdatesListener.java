@@ -6,9 +6,8 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.EditMessageText;
-import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
-import com.pengrad.telegrambot.response.SendResponse;
+import com.skypro.sharehome.frames.MainMenuFrame;
 import com.skypro.sharehome.service.ShareHomeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +23,7 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
     private Logger logger = LoggerFactory.getLogger(ShareHomeUpdatesListener.class);
 
     private final ShareHomeService shareHomeService;
+    private final MainMenuFrame  mainMenuFrame = new MainMenuFrame();
 
     @Autowired
     private TelegramBot shareHomeBot;
@@ -81,35 +81,27 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
                         break;
                     case "LINK_VOLUNTEER":
                         System.out.println("link_volunteer");
+                        break;
+                    case "BACK_MENU":
+
+                        BaseResponse baseResponse = shareHomeBot.execute(mainMenuFrame.init(update));
+                        break;
                 }
 
             } else {
 
                 if (update.message().text().equals("/start") ) {
-                    Long chatId = update.message().chat().id();
-                    SendMessage message = new SendMessage(chatId, "Здравствуй, путник!");
 
-                    InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
-                            new InlineKeyboardButton[]{
-                                    new InlineKeyboardButton("Информация о приюте").callbackData("INFO"),
-                            },
-                            new InlineKeyboardButton[]{
-                                    new InlineKeyboardButton("Как взять питомца").callbackData("GET_PET")
-                            },
-                            new InlineKeyboardButton[]{
-                                    new InlineKeyboardButton("Прислать отчет о питомце").callbackData("PET_REPLY")
-                            },
-                            new InlineKeyboardButton[]{
-                                    new InlineKeyboardButton("Позвать волонтера").callbackData("LINK_VOLUNTEER")
-                            });
-
-                    message.replyMarkup(inlineKeyboard);
-                    SendResponse response = shareHomeBot.execute(message);
+                    BaseResponse response = shareHomeBot.execute(mainMenuFrame.init(update));
                 }
             }
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
+
+//    public InlineKeyboardMarkup keyboardMarkupGenerator(Integer numberOfCounts, String nameFrame) {
+//
+//    }
 
 
 }
