@@ -16,6 +16,7 @@ public class ShareHome {
     @GeneratedValue
     private Long id;
     private String name;
+    private TypeAnimal typeAnimal;
 
     @OneToMany(mappedBy = "shareHome")
     @JsonIgnore
@@ -34,6 +35,16 @@ public class ShareHome {
     @JsonIgnore
     private Collection<Client> clients;
 
+    public ShareHome(Long id, String name, TypeAnimal typeAnimal, String address) {
+        this.id = id;
+        this.name = name;
+        this.typeAnimal = typeAnimal;
+        this.address = address;
+    }
+
+    public ShareHome() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -48,6 +59,14 @@ public class ShareHome {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public TypeAnimal getTypeAnimal() {
+        return typeAnimal;
+    }
+
+    public void setTypeAnimal(TypeAnimal typeAnimal) {
+        this.typeAnimal = typeAnimal;
     }
 
     public Collection<Shedule> getShedules() {
