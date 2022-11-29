@@ -67,13 +67,6 @@ public class ShareHomeService {
         return refInfoRepository.getDescriptionByDocumentName(shareHome.getId(), nameDoc);
     }
 
-    public Client addClient(String name, String phone, Long idChat, ShareHome shareHome) {
-        logger.info("Was invoked method for add new client");
-        if (shareHome == null){
-            shareHome = shareHomeRepository.getReferenceById(1L);
-        }
-        return clientRepository.save(new Client(name, phone, idChat, shareHome));
-    }
 
     public Report startWithAnimal(Long idChat, String nameAnimal) {
         logger.info("Was invoked method for start getting animal");

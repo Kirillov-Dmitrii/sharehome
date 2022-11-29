@@ -13,11 +13,16 @@ public class AnimalService {
         this.animalRepository = animalRepository;
     }
 
-    public Animal createAnimal (Animal animal){
+    public Animal addAnimal(Animal animal){
         return animalRepository.save(animal);
     }
 
     public Animal findAnimal(long id){
         return animalRepository.findById(id).orElse(null);
     }
+
+    public Animal updateAnimal(Animal animal){
+        return animalRepository.save(animal);
+    }
+
 }
