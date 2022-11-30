@@ -33,6 +33,7 @@ public class MainMenuFrame implements Frame {
             return editMessageText.replyMarkup(inlineKeyboard);
 
         } else {
+
             Long chatId = update.message().chat().id();
             SendMessage message = new SendMessage(chatId, "Здравствуй, гость! \n" +
                     "Share_home_bot даст тебе всю необходимую информацию о приюте.");

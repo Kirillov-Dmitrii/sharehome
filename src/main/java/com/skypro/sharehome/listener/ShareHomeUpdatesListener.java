@@ -3,7 +3,7 @@ package com.skypro.sharehome.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import com.skypro.sharehome.command.Contanier;
+import com.pengrad.telegrambot.request.SendMessage;
 import com.skypro.sharehome.frames.*;
 import com.skypro.sharehome.service.ShareHomeService;
 import org.slf4j.Logger;
@@ -26,7 +26,6 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
     private final AdviceFrame adviceFrame = new AdviceFrame();
     private final PetReplyFrame petReplyFrame = new PetReplyFrame();
 
-    private final Contanier contanier = new Contanier();
 
     @Autowired
     private TelegramBot shareHomeBot;
@@ -116,12 +115,13 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
 
             } else {
 
-                if (update.message().text().equals("/start") ) {
+                if (update.message() != null && update.message().text().equals("/start")) {
 
                     shareHomeBot.execute(mainMenuFrame.init(update));
                 }
             }
         });
+
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
