@@ -3,11 +3,8 @@ package com.skypro.sharehome.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
-import com.pengrad.telegrambot.request.EditMessageText;
-import com.pengrad.telegrambot.response.BaseResponse;
-import com.skypro.sharehome.frames.MainMenuFrame;
+import com.pengrad.telegrambot.request.SendMessage;
+import com.skypro.sharehome.frames.*;
 import com.skypro.sharehome.service.ShareHomeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +20,12 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
     private Logger logger = LoggerFactory.getLogger(ShareHomeUpdatesListener.class);
 
     private final ShareHomeService shareHomeService;
-    private final MainMenuFrame  mainMenuFrame = new MainMenuFrame();
+    private final MainMenuFrame mainMenuFrame = new MainMenuFrame();
+    private final InfoFrame infoFrame = new InfoFrame();
+    private final GetPetFrame getPetFrame = new GetPetFrame();
+    private final AdviceFrame adviceFrame = new AdviceFrame();
+    private final PetReplyFrame petReplyFrame = new PetReplyFrame();
+
 
     @Autowired
     private TelegramBot shareHomeBot;
@@ -44,64 +46,83 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
             logger.info("Processing update: {}", update);
 
             if (update.callbackQuery() != null) {
+                //Подогнать контейнер и по ключу проверять входное сообщение
                 switch (update.callbackQuery().data()) {
                     case "INFO":
-
-                        EditMessageText editMessageText = new EditMessageText(update.callbackQuery().message().chat().id(),
-                                update.callbackQuery().message().messageId(), "Хороший приют!Все няш-мяш!");
-
-                        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
-                                new InlineKeyboardButton[]{
-                                        new InlineKeyboardButton("Расписание, адрес, схема проезда").callbackData(
-                                                "TIMETABLE"),
-                                },
-                                new InlineKeyboardButton[]{
-                                        new InlineKeyboardButton("Правила посещения").callbackData("RULES_VISIT")
-                                },
-                                new InlineKeyboardButton[]{
-                                        new InlineKeyboardButton("Информация о приюте").callbackData("INFO"),
-                                },
-                                new InlineKeyboardButton[]{
-                                        new InlineKeyboardButton("Позвать волонтера").callbackData("LINK_VOLUNTEER")
-                                },
-                                new InlineKeyboardButton[]{
-                                        new InlineKeyboardButton("В меню").callbackData("BACK_MENU")
-                                });
-
-                        editMessageText.replyMarkup(inlineKeyboard);
-
-                        BaseResponse response = shareHomeBot.execute(editMessageText);
-
+                        infoFrame.setMessageText("В нашем приюте “Снежок” находится более 200 собак, которые хотят обрести семью и друзей." +
+                                " Все животные регулярно осматриваются ветеринарами, вакцинированы, обработаны от блох и клещей. Волонтеры ежедневно ухаживают," +
+                                " выгуливают, кормят и заботятся о собаках, а специалисты по социализации помогают приучить к комфортному общению с человеком.");
+                        shareHomeBot.execute(infoFrame.init(update));
+                        break;
+                    case "TIMETABLE":
+                        infoFrame.setMessageText("Расписание, адрес, схема проезда");
+                        shareHomeBot.execute(infoFrame.init(update));
                         break;
                     case "GET_PET":
-                        System.out.println("get_pet");
+                    case "BACK":
+                        shareHomeBot.execute(getPetFrame.init(update));
                         break;
                     case "PET_REPLY":
-                        System.out.println("pet_reply");
+                        shareHomeBot.execute(petReplyFrame.init(update));
                         break;
                     case "LINK_VOLUNTEER":
                         System.out.println("link_volunteer");
                         break;
                     case "BACK_MENU":
-
-                        BaseResponse baseResponse = shareHomeBot.execute(mainMenuFrame.init(update));
+                        shareHomeBot.execute(mainMenuFrame.init(update));
                         break;
+                    case "ADVICE":
+                        shareHomeBot.execute(adviceFrame.init(update));
+                        break;
+                    case "RULES_VISIT":
+                        infoFrame.setMessageText("Вся информацио о правилах посещения приюта");
+                        shareHomeBot.execute(infoFrame.init(update));
+                        break;
+                    case "DATING_RULES":
+                        getPetFrame.setMessageText("Правила знакомства с питомцем");
+                        shareHomeBot.execute(getPetFrame.init(update));
+                        break;
+                    case "DOCUMENTS":
+                        getPetFrame.setMessageText("Список документов");
+                        shareHomeBot.execute(getPetFrame.init(update));
+                        break;
+                    case "FAILURE":
+                        getPetFrame.setMessageText("Причины отказа");
+                        shareHomeBot.execute(getPetFrame.init(update));
+                        break;
+                    case "TRANSPORTATION":
+                        adviceFrame.setMessageText("Список документов");
+                        shareHomeBot.execute(adviceFrame.init(update));
+                        break;
+                    case "EQUIPMENT_PUPPY":
+                        adviceFrame.setMessageText("Обустройство дома для щенка");
+                        shareHomeBot.execute(adviceFrame.init(update));
+                        break;
+                    case "EQUIPMENT_DOG":
+                        adviceFrame.setMessageText("Обустройству дома для взрослой собаки");
+                        shareHomeBot.execute(adviceFrame.init(update));
+                        break;
+                    case "EQUIPMENT_DOG_DISABLED":
+                        adviceFrame.setMessageText("Обустройству дома для собаки с ограниченными возможностями");
+                        shareHomeBot.execute(adviceFrame.init(update));
+                        break;
+                    case "CYNOLOGIST":
+                        adviceFrame.setMessageText("Советы и контакты кинолога");
+                        shareHomeBot.execute(adviceFrame.init(update));
+                        break;
+
                 }
 
             } else {
 
-                if (update.message().text().equals("/start") ) {
+                if (update.message() != null && update.message().text().equals("/start")) {
 
-                    BaseResponse response = shareHomeBot.execute(mainMenuFrame.init(update));
+                    shareHomeBot.execute(mainMenuFrame.init(update));
                 }
             }
         });
+
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
-
-//    public InlineKeyboardMarkup keyboardMarkupGenerator(Integer numberOfCounts, String nameFrame) {
-//
-//    }
-
 
 }

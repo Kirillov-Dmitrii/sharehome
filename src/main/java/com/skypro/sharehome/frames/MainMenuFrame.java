@@ -7,10 +7,11 @@ import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.EditMessageText;
 import com.pengrad.telegrambot.request.SendMessage;
 
-public class MainMenuFrame {
+public class MainMenuFrame implements Frame {
 
+    @Override
     public BaseRequest init(Update update) {
-
+        //создаем клавиатуру
         InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
                 new InlineKeyboardButton[]{
                         new InlineKeyboardButton("Информация о приюте").callbackData("INFO"),
@@ -26,10 +27,13 @@ public class MainMenuFrame {
                 });
 
         if (update.callbackQuery() != null) {
+            //изменяем сообщение
             EditMessageText editMessageText = new EditMessageText(update.callbackQuery().message().chat().id(),
-                    update.callbackQuery().message().messageId(), "Хороший приют!Все няш-мяш!");
+                    update.callbackQuery().message().messageId(), "Share_home_bot даст тебе всю необходимую информацию о приюте.");
             return editMessageText.replyMarkup(inlineKeyboard);
+
         } else {
+
             Long chatId = update.message().chat().id();
             SendMessage message = new SendMessage(chatId, "Здравствуй, гость! \n" +
                     "Share_home_bot даст тебе всю необходимую информацию о приюте.");
