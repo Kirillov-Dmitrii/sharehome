@@ -5,7 +5,7 @@ INSERT INTO shedule (day_of_week, time_begin, time_end)
 VALUES ('Ежедневно', 10.00, 18.00);
 
 -- changeset elenazmeeva:2
-INSERT INTO share_home (name,address)
+INSERT INTO share_home (name, address)
 VALUES ('Снежок', 'г.Москва, ул.Судостроительная д.12.');
 
 -- changeset elenazmeeva:3

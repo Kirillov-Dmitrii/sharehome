@@ -1,16 +1,13 @@
 package com.skypro.sharehome.service;
 
-import com.skypro.sharehome.entity.Animal;
-import com.skypro.sharehome.entity.Client;
-import com.skypro.sharehome.entity.Report;
-import com.skypro.sharehome.entity.ShareHome;
+import com.skypro.sharehome.entity.*;
 import com.skypro.sharehome.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,28 +16,36 @@ public class ShareHomeService {
     private final Logger logger = LoggerFactory.getLogger(ShareHomeService.class);
 
     private final ShareHomeRepository shareHomeRepository;
-    private final SheduleRepository sheduleRepository;
-    private final SchemeRunRepository schemeRunRepository;
-    private final RefInfoRepository refInfoRepository;
     private final ClientRepository clientRepository;
     private final ReportRepository reportRepository;
     private final AnimalRepository animalRepository;
+    private final SheduleService sheduleService;
+    private final TypeAnimalService typeAnimalService;
+    private final SchemeRunService schemeRunService;
 
-    public ShareHomeService(ShareHomeRepository shareHomeRepository, SheduleRepository sheduleRepository, SchemeRunRepository schemeRunRepository, RefInfoRepository refInfoRepository, ClientRepository clientRepository, ReportRepository reportRepository, AnimalRepository animalRepository) {
+    public ShareHomeService(ShareHomeRepository shareHomeRepository, SheduleService sheduleService, SchemeRunRepository schemeRunRepository, RefInfoRepository refInfoRepository, ClientRepository clientRepository, ReportRepository reportRepository, AnimalRepository animalRepository, TypeAnimalService typeAnimalService, SchemeRunService schemeRunService) {
         this.shareHomeRepository = shareHomeRepository;
-        this.sheduleRepository = sheduleRepository;
-        this.schemeRunRepository = schemeRunRepository;
-        this.refInfoRepository = refInfoRepository;
+        this.sheduleService = sheduleService;
         this.clientRepository = clientRepository;
         this.reportRepository = reportRepository;
         this.animalRepository = animalRepository;
+        this.typeAnimalService = typeAnimalService;
+        this.schemeRunService = schemeRunService;
+    }
+
+    public ShareHome addShareHome(String nameShareHome, String addressShareHome, String typeAnimal) {
+        logger.info("Was invoked method for create sharehome");
+        ShareHome shareHome = new ShareHome(null, nameShareHome, typeAnimalService.getTypeAnimalByCode(typeAnimal), addressShareHome);
+        return shareHomeRepository.save(shareHome);
+    }
+
+    public ShareHome findShareHomeByType(String typeCode) {
+        logger.info("Was invoked method for search ShareHome");
+        return shareHomeRepository.getShareHomeByTypeAnimal(typeAnimalService.getTypeAnimal(typeCode));
     }
 
     public String getAboutShareHome(ShareHome shareHome){
         logger.info("Was invoked method for getting info about ShareHome");
-        if (shareHome == null){
-            shareHome = shareHomeRepository.getReferenceById(1L);
-        }
         return "Приют "
                 + shareHomeRepository.getNameShareHome(shareHome.getId()) + "\n"
                 + shareHomeRepository.getDescriptionShareHome(shareHome.getId());
@@ -48,25 +53,13 @@ public class ShareHomeService {
 
     public String getDetailsShareHome(ShareHome shareHome) {
         logger.info("Was invoked method for getting details info about ShareHome");
-        if (shareHome == null){
-            shareHome = shareHomeRepository.getReferenceById(1L);
-        }
         return "Расписание работы:\n"
-                + sheduleRepository.getShedulesByShareHome(shareHome.getId())
+                + sheduleService.getShedules(shareHome)
                 + "\n Адрес: "
                 + shareHomeRepository.getAddressShareHome(shareHome.getId())
                 + "\n Схема проезда: \n"
-                + schemeRunRepository.findSchemeRunByShareHome(shareHome.getId());
+                + schemeRunService.getSchemeRun(shareHome);
     }
-
-    public String getDocument(ShareHome shareHome, String nameDoc) {
-        logger.info("Was invoked method for get document by name from table information");
-        if (shareHome == null){
-            shareHome = shareHomeRepository.getReferenceById(1L);
-        }
-        return refInfoRepository.getDescriptionByDocumentName(shareHome.getId(), nameDoc);
-    }
-
 
     public Report startWithAnimal(Long idChat, String nameAnimal) {
         logger.info("Was invoked method for start getting animal");
@@ -89,5 +82,9 @@ public class ShareHomeService {
     }
 
 
-
+    public void deleteShareHome(Long id) {
+        logger.info("Was invoked method for delete shareHome");
+        logger.debug("We deleting shareHome with id = {}", id);
+        shareHomeRepository.deleteById(id);
+    }
 }

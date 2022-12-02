@@ -15,6 +15,9 @@ public interface ShareHomeRepository extends JpaRepository<ShareHome, Long> {
     @Query(value = "SELECT name FROM share_home where id = :id", nativeQuery = true)
     String getNameShareHome(@Param("id") Long id);
 
-    @Query(value = "SELECT address FROM share_home where id = :id", nativeQuery = true)
+    @Query(value = "SELECT address FROM share_home WHERE id = :id", nativeQuery = true)
     String getAddressShareHome(@Param("id") Long id);
+
+    @Query(value = "SELECT * FROM share_home WHERE type_animal_id = :type", nativeQuery = true)
+    ShareHome getShareHomeByTypeAnimal(@Param("type") Integer type);
 }
