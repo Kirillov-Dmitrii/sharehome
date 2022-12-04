@@ -16,6 +16,8 @@ public class ShareHome {
     @GeneratedValue
     private Long id;
     private String name;
+    @OneToOne
+    @JoinColumn(name = "type_animal_id")
     private TypeAnimal typeAnimal;
 
     @OneToMany(mappedBy = "shareHome")

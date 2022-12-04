@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.skypro.sharehome.entity.ShareHome;
 import com.skypro.sharehome.frames.*;
 import com.skypro.sharehome.service.ShareHomeService;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
     private final GetPetFrame getPetFrame = new GetPetFrame();
     private final AdviceFrame adviceFrame = new AdviceFrame();
     private final PetReplyFrame petReplyFrame = new PetReplyFrame();
+    private String typeShareHome = "DOG";
 
 
     @Autowired
@@ -49,13 +51,12 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
                 //Подогнать контейнер и по ключу проверять входное сообщение
                 switch (update.callbackQuery().data()) {
                     case "INFO":
-                        infoFrame.setMessageText("В нашем приюте “Снежок” находится более 200 собак, которые хотят обрести семью и друзей." +
-                                " Все животные регулярно осматриваются ветеринарами, вакцинированы, обработаны от блох и клещей. Волонтеры ежедневно ухаживают," +
-                                " выгуливают, кормят и заботятся о собаках, а специалисты по социализации помогают приучить к комфортному общению с человеком.");
+                        infoFrame.setMessageText(shareHomeService.getAboutShareHome(shareHomeService.findShareHomeByType(typeShareHome)));
                         shareHomeBot.execute(infoFrame.init(update));
                         break;
                     case "TIMETABLE":
-                        infoFrame.setMessageText("Расписание, адрес, схема проезда");
+                        //infoFrame.setMessageText("Расписание, адрес, схема проезда");
+                        infoFrame.setMessageText(shareHomeService.getDetailsShareHome(shareHomeService.findShareHomeByType(typeShareHome)));
                         shareHomeBot.execute(infoFrame.init(update));
                         break;
                     case "GET_PET":
