@@ -17,7 +17,10 @@ public enum CallbackDataNames {
     EQUIPMENT_PUPPY("EQUIPMENT_PUPPY"),
     EQUIPMENT_DOG("EQUIPMENT_DOG"),
     EQUIPMENT_DOG_DISABLED("EQUIPMENT_DOG_DISABLED"),
-    CYNOLOGIST("CYNOLOGIST");
+    CYNOLOGIST("CYNOLOGIST"),
+    DOG("DOG"),
+    CAT("CAT");
+
 
     private final String commandName;
 
