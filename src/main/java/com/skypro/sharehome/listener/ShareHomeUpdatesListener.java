@@ -3,10 +3,8 @@ package com.skypro.sharehome.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.request.BaseRequest;
-import com.pengrad.telegrambot.request.SendMessage;
-import com.skypro.sharehome.command.Container;
-import com.skypro.sharehome.entity.ShareHome;
+import com.skypro.sharehome.command.CallbackDataNames;
+import com.skypro.sharehome.command.KindOfPet;
 import com.skypro.sharehome.frames.*;
 import com.skypro.sharehome.service.ShareHomeService;
 import org.slf4j.Logger;
@@ -30,16 +28,11 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
     private final PetReplyFrame petReplyFrame = new PetReplyFrame();
     private final Frame welcomeFrame = new WelcomeFrame();
 
-    private String typeShareHome;
-
-    private Container container;
-
 
     @Autowired
     private TelegramBot shareHomeBot;
 
-    public ShareHomeUpdatesListener(ShareHomeService shareHomeService, Container container) {
-        this.container = container;
+    public ShareHomeUpdatesListener(ShareHomeService shareHomeService) {
         this.shareHomeService = shareHomeService;
     }
 
@@ -79,16 +72,17 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
                 switch (update.callbackQuery().data()) {
                     case "DOG":
                     case "CAT":
-                        typeShareHome = update.callbackQuery().data();
+                        KindOfPet.pet = update.callbackQuery().data();
                         shareHomeBot.execute(mainMenuFrame.init(update));
+                        System.out.println(KindOfPet.pet);
                         break;
                     case "INFO":
-                        infoFrame.setMessageText(shareHomeService.getAboutShareHome(shareHomeService.findShareHomeByType(typeShareHome)));
+                        infoFrame.setMessageText(shareHomeService.getAboutShareHome(shareHomeService.findShareHomeByType(KindOfPet.pet)));
                         shareHomeBot.execute(infoFrame.init(update));
                         break;
                     case "TIMETABLE":
                         //infoFrame.setMessageText("Расписание, адрес, схема проезда");
-                        infoFrame.setMessageText(shareHomeService.getDetailsShareHome(shareHomeService.findShareHomeByType(typeShareHome)));
+                        infoFrame.setMessageText(shareHomeService.getDetailsShareHome(shareHomeService.findShareHomeByType(KindOfPet.pet)));
                         shareHomeBot.execute(infoFrame.init(update));
                         break;
                     case "GET_PET":

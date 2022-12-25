@@ -1,5 +1,6 @@
 package com.skypro.sharehome.command;
 
+
 public enum CallbackDataNames {
     INFO("INFO"),
     TIMETABLE("TIMETABLE"),
