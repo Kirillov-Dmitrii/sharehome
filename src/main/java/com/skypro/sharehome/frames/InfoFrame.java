@@ -40,6 +40,9 @@ public class InfoFrame implements Frame {
                         new InlineKeyboardButton("Позвать волонтера").callbackData("LINK_VOLUNTEER")
                 },
                 new InlineKeyboardButton[]{
+                         new InlineKeyboardButton("Записать контактные данные для связи").callbackData("WRITE_PHONE")
+                },
+                new InlineKeyboardButton[]{
                         new InlineKeyboardButton("В меню").callbackData("BACK_MENU")
                 });
     }

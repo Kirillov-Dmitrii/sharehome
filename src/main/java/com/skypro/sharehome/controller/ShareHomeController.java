@@ -16,8 +16,8 @@ public class ShareHomeController {
     }
 
     @PostMapping
-    public ShareHome addShareHome(@RequestParam String nameShareHome, @RequestParam String addressShareHome, @RequestParam String typeAnimal) {
-        return shareHomeService.addShareHome(nameShareHome, addressShareHome, typeAnimal);
+    public ShareHome addShareHome(@RequestParam String nameShareHome, @RequestParam String addressShareHome, @RequestParam String securityShareHome, @RequestParam String typeAnimal) {
+        return shareHomeService.addShareHome(nameShareHome, addressShareHome, typeAnimal, securityShareHome);
     }
 
     @DeleteMapping("{id}")  //DELETE http://localhost:8080/student/23
