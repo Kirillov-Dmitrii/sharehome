@@ -26,18 +26,12 @@ public class MainMenuFrame implements Frame {
                         new InlineKeyboardButton("Позвать волонтера").callbackData("LINK_VOLUNTEER")
                 });
 
-        if (update.callbackQuery() != null) {
-            //изменяем сообщение
-            EditMessageText editMessageText = new EditMessageText(update.callbackQuery().message().chat().id(),
-                    update.callbackQuery().message().messageId(), "Share_home_bot даст тебе всю необходимую информацию о приюте.");
-            return editMessageText.replyMarkup(inlineKeyboard);
 
-        } else {
+        //изменяем сообщение
+        EditMessageText editMessageText = new EditMessageText(update.callbackQuery().message().chat().id(),
+                update.callbackQuery().message().messageId(), "Share_home_bot даст тебе всю необходимую информацию о приюте.");
+        return editMessageText.replyMarkup(inlineKeyboard);
 
-            Long chatId = update.message().chat().id();
-            SendMessage message = new SendMessage(chatId, "Здравствуй, гость! \n" +
-                    "Share_home_bot даст тебе всю необходимую информацию о приюте.");
-            return message.replyMarkup(inlineKeyboard);
-        }
+
     }
 }

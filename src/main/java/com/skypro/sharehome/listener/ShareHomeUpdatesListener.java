@@ -3,6 +3,8 @@ package com.skypro.sharehome.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import com.skypro.sharehome.command.CallbackDataNames;
+import com.skypro.sharehome.command.KindOfPet;
 import com.skypro.sharehome.frames.*;
 import com.skypro.sharehome.service.ClientService;
 import com.skypro.sharehome.service.RefInfoService;
@@ -30,7 +32,7 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
     private final GetPetFrame getPetFrame = new GetPetFrame();
     private final AdviceFrame adviceFrame = new AdviceFrame();
     private final PetReplyFrame petReplyFrame = new PetReplyFrame();
-    private String typeShareHome = "DOG";
+    private final Frame welcomeFrame = new WelcomeFrame();
 
 
     @Autowired
@@ -51,18 +53,44 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         System.out.println(updates.toString());
         updates.forEach(update -> {
-            logger.info("Processing update: {}", update);
+            logger.info("Processing  update: {}", update);
+
+            //Этот блок кода выполняет тот же фунционал, что и switch
+            //Он работает, но пока его не трогаем
+//            container.init();
+//
+//            if (update.callbackQuery() != null && update.callbackQuery().data().equals("DOG")) {
+//                shareHomeBot.execute(mainMenuFrame.init(update));
+//            }
+////
+//            if (update.callbackQuery() != null) {
+//                if (container.getMap().containsKey(update.callbackQuery().data()) && !update.callbackQuery().data().equals("/start")) {
+//                    infoFrame.setMessageText(container.getMap().get(update.callbackQuery().data()));
+//                    shareHomeBot.execute(infoFrame.init(update));
+//                }
+//            } else {
+//
+//                if (update.message() != null && update.message().text().equals("/start")) {
+//                    shareHomeBot.execute(welcomeFrame.init(update));
+//                }
+//            }
 
             if (update.callbackQuery() != null) {
                 //Подогнать контейнер и по ключу проверять входное сообщение
                 switch (update.callbackQuery().data()) {
+                    case "DOG":
+                    case "CAT":
+                        KindOfPet.pet = update.callbackQuery().data();
+                        shareHomeBot.execute(mainMenuFrame.init(update));
+                        System.out.println(KindOfPet.pet);
+                        break;
                     case "INFO":
-                        infoFrame.setMessageText(shareHomeService.getAboutShareHome(shareHomeService.findShareHomeByType(typeShareHome)));
+                        infoFrame.setMessageText(shareHomeService.getAboutShareHome(shareHomeService.findShareHomeByType(KindOfPet.pet)));
                         shareHomeBot.execute(infoFrame.init(update));
                         break;
                     case "TIMETABLE":
                         //infoFrame.setMessageText("Расписание, адрес, схема проезда");
-                        infoFrame.setMessageText(shareHomeService.getDetailsShareHome(shareHomeService.findShareHomeByType(typeShareHome)));
+                        infoFrame.setMessageText(shareHomeService.getDetailsShareHome(shareHomeService.findShareHomeByType(KindOfPet.pet)));
                         shareHomeBot.execute(infoFrame.init(update));
                         break;
                     case "GET_PET":
@@ -145,7 +173,7 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
 
                 if (update.message() != null && update.message().text().equals("/start")) {
 
-                    shareHomeBot.execute(mainMenuFrame.init(update));
+                    shareHomeBot.execute(welcomeFrame.init(update));
                 }
             }
         });
