@@ -33,9 +33,9 @@ public class ShareHomeService {
         this.schemeRunService = schemeRunService;
     }
 
-    public ShareHome addShareHome(String nameShareHome, String addressShareHome, String typeAnimal) {
+    public ShareHome addShareHome(String nameShareHome, String addressShareHome, String typeAnimal, String security) {
         logger.info("Was invoked method for create sharehome");
-        ShareHome shareHome = new ShareHome(null, nameShareHome, typeAnimalService.getTypeAnimalByCode(typeAnimal), addressShareHome);
+        ShareHome shareHome = new ShareHome(null, nameShareHome, typeAnimalService.getTypeAnimalByCode(typeAnimal), addressShareHome, security);
         return shareHomeRepository.save(shareHome);
     }
 
@@ -86,5 +86,10 @@ public class ShareHomeService {
         logger.info("Was invoked method for delete shareHome");
         logger.debug("We deleting shareHome with id = {}", id);
         shareHomeRepository.deleteById(id);
+    }
+
+    public String getInfoSecurity(ShareHome shareHome) {
+        logger.info("Was invoked method for get data of security");
+        return shareHomeRepository.getSecurityShareHome(shareHome.getId());
     }
 }
