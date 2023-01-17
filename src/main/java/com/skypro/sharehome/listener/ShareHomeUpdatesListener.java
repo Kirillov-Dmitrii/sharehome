@@ -4,15 +4,21 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.skypro.sharehome.entity.Animal;
+import com.skypro.sharehome.entity.Report;
 import com.skypro.sharehome.entity.ShareHome;
 import com.skypro.sharehome.frames.*;
+import com.skypro.sharehome.repository.ReportRepository;
 import com.skypro.sharehome.service.ShareHomeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,6 +33,7 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
     private final AdviceFrame adviceFrame = new AdviceFrame();
     private final PetReplyFrame petReplyFrame = new PetReplyFrame();
     private String typeShareHome = "DOG";
+    private  ReportRepository reportRepository;
 
 
     @Autowired
@@ -126,4 +133,26 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
+    @Scheduled(cron = "0 0 21 * * * ")
+    public void sendReminder() {
+        List<Report> reports = reportRepository.findReportByDayReport(LocalDate.now());
+        if (reports.isEmpty()) {
+            reports.forEach(report -> {
+                Long chatId = report.getId();
+                shareHomeBot.execute(new SendMessage(chatId, "Не забудьте прислать отчет!"));
+            });
+        }
+        if (reportRepository.findReportByDayReport(LocalDate.now().minusDays(1)).isEmpty()){
+            reports.forEach(report -> {
+                Long chatId = report.getId();
+                shareHomeBot.execute(new SendMessage(chatId, "Вы не присылаете отчет два дня! С вами свяжется волонтер!"));
+            });
+        }
+        if (!reportRepository.findReportByDayReport(LocalDate.now().minusDays(30)).isEmpty()){
+            reports.forEach(report -> {
+                Long chatId = report.getId();
+                shareHomeBot.execute(new SendMessage(chatId, "Вы прошли испытательный срок! Поздравляем!"));
+            });
+        }
+    }
 }

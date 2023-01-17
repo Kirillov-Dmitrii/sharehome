@@ -58,5 +58,7 @@ public void uploadAvatar(Long id, MultipartFile file) throws IOException{
     private String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
+
+
 }
 
