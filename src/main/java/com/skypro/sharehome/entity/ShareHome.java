@@ -14,7 +14,7 @@ public class ShareHome {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String name;
     @OneToOne
     @JoinColumn(name = "type_animal_id")
@@ -25,7 +25,6 @@ public class ShareHome {
     private Collection<Shedule> shedules;
 
     private String address;
-    private String security;
 
     @OneToMany(mappedBy = "shareHome")
     private Collection<RefInfo> refInfo;
@@ -38,30 +37,21 @@ public class ShareHome {
     @JsonIgnore
     private Collection<Client> clients;
 
-    public ShareHome(Long id, String name, TypeAnimal typeAnimal, String address, String security) {
+    public ShareHome(Integer id, String name, TypeAnimal typeAnimal, String address) {
         this.id = id;
         this.name = name;
         this.typeAnimal = typeAnimal;
         this.address = address;
-        this.security = security;
     }
 
     public ShareHome() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public String getSecurity() {
-        return security;
-    }
-
-    public void setSecurity(String security) {
-        this.security = security;
-    }
-
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

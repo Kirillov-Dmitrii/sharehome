@@ -14,7 +14,7 @@ public class Client {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String name;
     private String phone;
     private Long idChat;
@@ -29,7 +29,8 @@ public class Client {
     public Client() {
     }
 
-    public Client(Long id, String name, String phone, Long idChat, Boolean owner, Animal animal, ShareHome shareHome, Integer countDays) {
+    public Client(Integer id, String name, String phone, Long idChat, Boolean owner, Animal animal, ShareHome shareHome,
+                  Integer countDays) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -43,11 +44,11 @@ public class Client {
         this(null, name, phone, idChat, null, null, shareHome, null);
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

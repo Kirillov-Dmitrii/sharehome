@@ -9,7 +9,7 @@ public class Avatar {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String filePath;
     private long fileSize;
     private String mediaType;
@@ -23,7 +23,7 @@ public class Avatar {
     public Avatar() {
     }
 
-    public Avatar(Long id, String filePath, long fileSize, String mediaType, Report report) {
+    public Avatar(Integer id, String filePath, long fileSize, String mediaType, Report report) {
         this.id = id;
         this.filePath = filePath;
         this.fileSize = fileSize;
@@ -58,11 +58,11 @@ public class Avatar {
                 '}';
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

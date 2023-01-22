@@ -12,7 +12,7 @@ public class RefInfo {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String documentName;
     private String description;
 
@@ -31,18 +31,18 @@ public class RefInfo {
         this(null, documentName, description, shareHome);
     }
 
-    public RefInfo(Long id, String documentName, String description,ShareHome shareHome) {
+    public RefInfo(Integer id, String documentName, String description,ShareHome shareHome) {
         this.id = id;
         this.documentName = documentName;
         this.description = description;
         this.shareHome = shareHome;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

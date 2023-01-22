@@ -9,7 +9,7 @@ public class Report {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "animal_id")
@@ -23,7 +23,8 @@ public class Report {
     public Report() {
     }
 
-    public Report(Long id, Animal animal, Avatar avatar, String diet, String health, String actions, LocalDate dayReport) {
+    public Report(Integer id, Animal animal, Avatar avatar, String diet, String health, String actions,
+                  LocalDate dayReport) {
         this.id = id;
         this.animal = animal;
         this.diet = diet;
@@ -32,11 +33,11 @@ public class Report {
         this.dayReport = dayReport;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
