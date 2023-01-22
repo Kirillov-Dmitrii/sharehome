@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SchemeRunRepository extends JpaRepository<SchemeRun, Long> {
     @Query(value = "SELECT * FROM scheme_run WHERE share_home_id = :sharehome", nativeQuery = true)
-    SchemeRun findSchemeRunByShareHome(@Param("sharehome") Long shareHome);
+    SchemeRun findSchemeRunByShareHome(@Param("sharehome") Integer shareHome);
 }

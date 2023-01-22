@@ -11,7 +11,7 @@ public class Animal {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String name;
 
     @OneToOne
@@ -36,18 +36,18 @@ public class Animal {
         this(null, name, owner, shareHome);
     }
 
-    public Animal(Long id, String name, Client owner, ShareHome shareHome) {
+    public Animal(Integer id, String name, Client owner, ShareHome shareHome) {
         this.id = id;
         this.name = name;
         this.owner = owner;
         this.shareHome = shareHome;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

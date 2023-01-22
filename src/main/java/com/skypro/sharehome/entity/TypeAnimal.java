@@ -10,7 +10,7 @@ public class TypeAnimal {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String code;
     private String name;
 
@@ -22,11 +22,11 @@ public class TypeAnimal {
     public TypeAnimal() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

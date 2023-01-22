@@ -11,7 +11,7 @@ import java.util.Objects;
 public class SchemeRun {
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String filePath;
     private long fileSize;
     private String mediaType;
@@ -25,7 +25,7 @@ public class SchemeRun {
     public SchemeRun() {
     }
 
-    public SchemeRun(Long id, String filePath, long fileSize, String mediaType, ShareHome shareHome) {
+    public SchemeRun(Integer id, String filePath, long fileSize, String mediaType, ShareHome shareHome) {
         this.id = id;
         this.filePath = filePath;
         this.fileSize = fileSize;
@@ -60,11 +60,11 @@ public class SchemeRun {
                 '}';
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 public interface ShareHomeRepository extends JpaRepository<ShareHome, Long> {
 
     @Query(value = "SELECT description FROM share_home where id = :id", nativeQuery = true)
-    String getDescriptionShareHome(@Param("id") Long id);
+    String getDescriptionShareHome(@Param("id") Integer id);
 
     @Query(value = "SELECT name FROM share_home where id = :id", nativeQuery = true)
-    String getNameShareHome(@Param("id") Long id);
+    String getNameShareHome(@Param("id") Integer id);
 
     @Query(value = "SELECT address FROM share_home WHERE id = :id", nativeQuery = true)
-    String getAddressShareHome(@Param("id") Long id);
+    String getAddressShareHome(@Param("id") Integer id);
 
     @Query(value = "SELECT * FROM share_home WHERE type_animal_id = :type", nativeQuery = true)
     ShareHome getShareHomeByTypeAnimal(@Param("type") Integer type);

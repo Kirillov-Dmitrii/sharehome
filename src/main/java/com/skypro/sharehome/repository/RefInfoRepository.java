@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface RefInfoRepository extends JpaRepository<RefInfo, Long> {
 
     @Query(value = "SELECT description FROM refinfo where id = :id and document_name = :name", nativeQuery = true)
-    String getDescriptionByDocumentName(@Param("id") Long id, @Param("name") String name);
+    String getDescriptionByDocumentName(@Param("id") Integer id, @Param("name") String name);
 }

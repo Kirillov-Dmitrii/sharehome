@@ -14,7 +14,7 @@ public class ShareHome {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String name;
     @OneToOne
     @JoinColumn(name = "type_animal_id")
@@ -37,7 +37,7 @@ public class ShareHome {
     @JsonIgnore
     private Collection<Client> clients;
 
-    public ShareHome(Long id, String name, TypeAnimal typeAnimal, String address) {
+    public ShareHome(Integer id, String name, TypeAnimal typeAnimal, String address) {
         this.id = id;
         this.name = name;
         this.typeAnimal = typeAnimal;
@@ -47,11 +47,11 @@ public class ShareHome {
     public ShareHome() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

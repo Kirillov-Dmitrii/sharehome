@@ -36,7 +36,7 @@ CREATE TABLE client
 );
 
 -- changeset amalashenko:4
-CREATE TABLE refinfo
+CREATE TABLE ref_info
 (
     id    SERIAL not null
         primary key,
@@ -96,8 +96,8 @@ ALTER TABLE client ADD COLUMN share_home_id SERIAL;
 ALTER TABLE client ADD FOREIGN KEY(share_home_id) REFERENCES share_home(id);
 
 -- changeset amalashenko:12
-ALTER TABLE refinfo ADD COLUMN share_home_id SERIAL;
-ALTER TABLE refinfo ADD FOREIGN KEY(share_home_id) REFERENCES share_home(id);
+ALTER TABLE ref_info ADD COLUMN share_home_id SERIAL;
+ALTER TABLE ref_info ADD FOREIGN KEY(share_home_id) REFERENCES share_home(id);
 
 -- changeset amalashenko:13
 ALTER TABLE report ADD COLUMN animal_id SERIAL;
@@ -128,3 +128,6 @@ CREATE TABLE type_animal
 );
 ALTER TABLE share_home ADD COLUMN type_animal_id SERIAL;
 ALTER TABLE share_home ADD FOREIGN KEY(type_animal_id) REFERENCES type_animal(id);
+
+--chageset kirillov:19
+ALTER TABLE animal ADD COLUMN owner_id INTEGER ;

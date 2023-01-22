@@ -12,7 +12,7 @@ public class Shedule {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "share_home_id")
@@ -33,7 +33,7 @@ public class Shedule {
         this(null, dayOfWeek, timeBegin, timeEnd, shareHome);
     }
 
-    public Shedule(Long id, String dayOfWeek, LocalTime timeBegin, LocalTime timeEnd, ShareHome shareHome) {
+    public Shedule(Integer id, String dayOfWeek, LocalTime timeBegin, LocalTime timeEnd, ShareHome shareHome) {
         this.id = id;
         this.dayOfWeek = dayOfWeek;
         this.timeBegin = timeBegin;
@@ -41,11 +41,11 @@ public class Shedule {
         this.shareHome = shareHome;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

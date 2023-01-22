@@ -12,5 +12,5 @@ import java.util.List;
 public interface SheduleRepository extends JpaRepository<Shedule, Long> {
 
     @Query(value = "SELECT day_of_week ||': '||time_begin||'-'||time_end FROM shedule WHERE share_home_id = :sharehome", nativeQuery = true)
-    List<String> getShedulesByShareHome(@Param("sharehome") Long sharehome);
+    List<String> getShedulesByShareHome(@Param("sharehome") Integer sharehome);
 }
