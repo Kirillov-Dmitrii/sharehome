@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Класс для описания справочной информации
  */
-@Entity
+@Entity(name = "ref_info")
 public class RefInfo {
 
     @Id

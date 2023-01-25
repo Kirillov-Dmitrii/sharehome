@@ -3,8 +3,11 @@ package com.skypro.sharehome.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.SendResponse;
 import com.skypro.sharehome.command.CallbackDataNames;
 import com.skypro.sharehome.command.KindOfPet;
+import com.skypro.sharehome.entity.Client;
 import com.skypro.sharehome.frames.*;
 import com.skypro.sharehome.service.ClientService;
 import com.skypro.sharehome.service.RefInfoService;
@@ -12,9 +15,12 @@ import com.skypro.sharehome.service.ShareHomeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +39,8 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
     private final AdviceFrame adviceFrame = new AdviceFrame();
     private final PetReplyFrame petReplyFrame = new PetReplyFrame();
     private final Frame welcomeFrame = new WelcomeFrame();
+
+    private String typeShareHome = "DOG";
 
 
     @Autowired
@@ -180,5 +188,25 @@ public class ShareHomeUpdatesListener implements UpdatesListener {
 
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
+
+    @Scheduled(cron = "@daily")
+    public int run() {
+        try {
+            Integer countNeedDone = 30;
+            List<Client> clientList;
+            clientList = clientService.getClientsDoneTrialPeriod(countNeedDone);
+            clientList
+                    .forEach(task -> {
+                        Long idChat = task.getIdChat();
+                        SendResponse response = shareHomeBot.execute(new SendMessage(idChat, "Поздравляем! Вы прошли испытательный срок!"));
+                    } );
+        } catch (NullPointerException ignored){
+        }
+        finally {
+            return UpdatesListener.CONFIRMED_UPDATES_ALL;
+        }
+    }
+
+
 
 }

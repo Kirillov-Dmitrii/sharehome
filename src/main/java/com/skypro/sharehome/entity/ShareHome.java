@@ -9,12 +9,12 @@ import java.util.Objects;
 /**
  * Основной класс, содержащий информацию о приюте
  */
-@Entity
+@Entity(name = "share_home")
 public class ShareHome {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     @OneToOne
     @JoinColumn(name = "type_animal_id")
@@ -37,22 +37,33 @@ public class ShareHome {
     @JsonIgnore
     private Collection<Client> clients;
 
-    public ShareHome(Integer id, String name, TypeAnimal typeAnimal, String address) {
+    private String security;
+
+    public ShareHome(Long id, String name, TypeAnimal typeAnimal, String address, String security) {
         this.id = id;
         this.name = name;
         this.typeAnimal = typeAnimal;
         this.address = address;
+        this.security = security;
     }
 
     public ShareHome() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSecurity() {
+        return security;
+    }
+
+    public void setSecurity(String security) {
+        this.security = security;
     }
 
     public String getName() {

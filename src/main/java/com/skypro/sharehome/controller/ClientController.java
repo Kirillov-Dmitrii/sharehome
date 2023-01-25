@@ -38,4 +38,13 @@ public class ClientController {
         }
         return ResponseEntity.ok(client1);
     }
+
+    @PostMapping({"/change"})
+    public ResponseEntity<Client> changeTrialPeriod(@RequestParam Integer countChangingDay, @RequestParam Boolean addOrDel, @RequestParam String nameClient){
+        Client client = clientService.changeTrialPeriod(countChangingDay, addOrDel, nameClient);
+        if(client == null){
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(client);
+    }
 }
